@@ -22,11 +22,13 @@ class Ромб:
         if key == 'сторона_а':
             if value <= 0:
                 print("Сторона повинна бути більше 0")
+                return
             super().__setattr__(key, value)
 
         elif key == 'кут_а':
             if not (0 < value < 180):
                 print("Кут повинен бути в діапазоні (0, 180)")
+                return
             super().__setattr__('кут_а', value)
             super().__setattr__('кут_б', 180 - value)
 
