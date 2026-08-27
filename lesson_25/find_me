@@ -9,7 +9,7 @@ xpath:
 6. //button[text()='Guest log in']/following-sibling::button
 7. //a[@href='https://www.facebook.com/Hillel.IT.School']
 8. //span[@class='socials_icon icon icon-telegram']
-9. //button[@aria-label="Play video"]
+9. //button[@class="ytmCuedOverlayPlayButton"]
 10. //span[contains(@class,'icon-linkedin')]
 
 css:
