@@ -1,0 +1,25 @@
+Написати 25 XPath та 25 CSS локаторів для сайту https://qauto2.forstudy.space/
+
+xpath:
+1. //div[@id='player-controls']
+2. //button[@appscrollto='aboutSection']
+3. //button[normalize-space()='About']/following-sibling::button
+4. //button[text()='Sign up']
+5. //button[text()='Guest log in']
+6. //button[text()='Guest log in']/following-sibling::button
+7. //a[@href='https://www.facebook.com/Hillel.IT.School']
+8. //span[@class='socials_icon icon icon-telegram']
+9. //button[@class="ytmCuedOverlayPlayButton"]
+10. //span[contains(@class,'icon-linkedin')]
+
+css:
+1. button.header-link.-guest
+2. div.hero-video
+3. button.hero-descriptor_btn.btn.btn-primary
+4. img[src='/assets/images/homepage/info_2.jpg']
+5. span.socials_icon.icon.icon-youtube
+6. span.socials_icon.icon.icon-instagram
+7. span.socials_icon.icon.icon-linkedin
+8. nav.header_nav button:first-of-type
+9. nav.header_nav button:nth-of-type(2)
+10. button.btn.btn-outline-white.header_signin
