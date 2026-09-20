@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Playwright artifacts (тільки ДЗ 26-27-28; скріншоти ДЗ 29 комітяться)
+lesson_26_27_28/screenshots/
+lesson_26_27_28/videos/
