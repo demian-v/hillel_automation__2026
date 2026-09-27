@@ -1,0 +1,51 @@
+# Jenkins Configuration as Code — усе, що зазвичай клацають у UI.
+jenkins:
+  systemMessage: "Hillel Automation 2026 — ДЗ 31: CI для UI-тестів реєстрації"
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: "${JENKINS_ADMIN_PASSWORD:-admin}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+unclassified:
+  location:
+    url: "http://localhost:8080/"
+
+tool:
+  allure:
+    installations:
+      - name: "allure"
+        home: "/opt/allure"
+
+jobs:
+  - script: |
+      pipelineJob('hillel-homework-31') {
+        description('UI-тести реєстрації на qauto2: Playwright + pytest + Allure. Pipeline з lesson_31/Jenkinsfile.')
+        // Той самий тригер, що й у Jenkinsfile, але діє з першої хвилини:
+        // збірок ще немає — git-плагін сам запускає першу, далі — на кожен новий коміт
+        properties {
+          pipelineTriggers {
+            triggers {
+              pollSCM {
+                scmpoll_spec('* * * * *')
+              }
+            }
+          }
+        }
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote { url('https://github.com/demian-v/hillel_automation__2026.git') }
+                branches('*/homework_31')
+              }
+            }
+            scriptPath('lesson_31/Jenkinsfile')
+            lightweight(true)
+          }
+        }
+      }

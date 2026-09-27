@@ -1,0 +1,62 @@
+// ДЗ 31: CI для UI-тестів реєстрації на qauto2
+pipeline {
+    agent any
+
+    // Локальний Jenkins не отримує вебхуків від GitHub, тому раз на хвилину
+    // перевіряємо репозиторій: з'явився новий коміт — запускаємо збірку.
+    triggers {
+        pollSCM('* * * * *')
+    }
+
+    options {
+        skipDefaultCheckout()   // код забираємо явно, на етапі Checkout
+        disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+    }
+
+    environment {
+        TESTS_DIR = 'lesson_31'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install dependencies') {
+            steps {
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --quiet --upgrade pip
+                    pip install --quiet -r "$TESTS_DIR/requirements.txt"
+                '''
+            }
+        }
+
+        stage('Run tests') {
+            steps {
+                // Впалі тести роблять збірку UNSTABLE, але не зупиняють пайплайн:
+                // інакше етап публікації пропустився б саме тоді, коли звіт найпотрібніший.
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    sh '''
+                        . venv/bin/activate
+                        cd "$TESTS_DIR"
+                        pytest --junitxml=junit.xml
+                    '''
+                }
+            }
+        }
+
+        stage('Publish results') {
+            steps {
+                junit testResults: "${TESTS_DIR}/junit.xml"
+                allure results: [[path: "${TESTS_DIR}/allure-results"]]
+                archiveArtifacts artifacts: "${TESTS_DIR}/report.html", allowEmptyArchive: true
+            }
+        }
+    }
+}

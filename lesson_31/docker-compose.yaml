@@ -1,0 +1,15 @@
+services:
+  jenkins:
+    build: ./jenkins
+    image: hillel-jenkins:lts
+    container_name: hillel-jenkins
+    ports:
+      - "127.0.0.1:8080:8080"   # тільки з цього комп'ютера, не з мережі
+    environment:
+      JENKINS_ADMIN_PASSWORD: ${JENKINS_ADMIN_PASSWORD:-admin}
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    shm_size: 1gb               # Chromium падає з дефолтними 64 MB /dev/shm
+
+volumes:
+  jenkins_home:
