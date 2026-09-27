@@ -216,3 +216,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Playwright artifacts (тільки ДЗ 26-27-28; скріншоти ДЗ 29 комітяться)
+lesson_26_27_28/screenshots/
+lesson_26_27_28/videos/
+
+# Allure / pytest-html artifacts (ДЗ 30)
+lesson_30/allure-results/
+lesson_30/allure-report/
+lesson_30/report.html
+
+# Allure / pytest-html / JUnit artifacts (ДЗ 31)
+lesson_31/allure-results/
+lesson_31/allure-report/
+lesson_31/report.html
+lesson_31/junit.xml
